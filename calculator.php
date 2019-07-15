@@ -2,21 +2,7 @@
 
 $error = [];
 $output = 0;
-$int1 = $_POST['int1'];
-$int2 = $_POST['int2'];
-$operator = $_POST['op'];
 
-if(!is_numeric($int1)){
-    $error[] = "You have entered an invalid input for first input. Please input numbers only";
-}
-
-if(!is_numeric($int2)){
-    $error[] = "You have entered an invalid input for second input. Please input numbers only";
-}
-
-if(empty($operator)){
-    $error[] = "Please select an operator to process your calculation.";
-}
 
 class calculateMe{
 
@@ -125,9 +111,28 @@ function calculateNow($a, $b, $operator){
 
 $calc = new calculateMe();
 
+
+
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+$int1 = $_POST['int1'];
+$int2 = $_POST['int2'];
+$operator = $_POST['op'];
+
+if(!is_numeric($int1)){
+    $error[] = "You have entered an invalid input for first input. Please input numbers only";
+}
+
+if(!is_numeric($int2)){
+    $error[] = "You have entered an invalid input for second input. Please input numbers only";
+}
+
+if(empty($operator)){
+    $error[] = "Please select an operator to process your calculation.";
+}
+
     if(sizeof($error) == 0) {
-        $output = $calc->calculateNow($int1, $int2, $calculate);
+        $output = $calc->calculateNow($int1, $int2, $operator);
     }
     
 }
@@ -142,6 +147,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <style>
+  div.success {
+	display: inline-block;
+	background-color: #66ff99;
+  color: #009933;
+	border-radius: 6px;
+	padding: 5px 5px 5px 5px;
+	width: auto;
+	font-size: 14px;
+}
 div.error {
 	display: inline-block;
 	background-color: #ffcccc;
@@ -172,8 +186,8 @@ div.error {
 ?>
 </div>
   <form method="POST" action="calculator.php" enctype="multipart/form-data">
-<input type="text" value="int1" id="int1">
-<input type="text" value="int2" id="int2">
+<input type="text" name="int1">
+<input type="text" name="int2">
 <select name="op">
     <option value="">Pick an operator</option>
      <option value="+" >+</option>
@@ -183,3 +197,10 @@ div.error {
      <option value="%">% - Modulus</option>
 <input type="submit" value="=">
   </form>
+<div class="success">
+<?php
+print $output;
+?>
+
+</div>
+  
