@@ -3,7 +3,6 @@
 $error = [];
 $output = 0;
 
-
 class calculateMe{
 
  var $a;
@@ -34,7 +33,7 @@ function processOperation($math){
         break;
 
         case '%':
-        return $this->a % $this->b;
+        return $this->a / 100; // Removed Modulus; convert integer into percentage.
         break;
 
 
@@ -45,59 +44,63 @@ function processOperation($math){
         break;
 
         case 'x^y':
-        return $this->a + $this->b; //Uses pow(base, exponent);
+        return pow($this->a, $this->b); //Uses pow(base, exponent);
         break;
 
         case 'x!':
-        return $this->a + $this->b; //Maybe add a separate function. Reference: Factorial notation?
+        return $this->a + $this->b; //Maybe add a separate function. Reference: Factorial notation? - Not Complete
         break;
 
         case 'sin':
-        return $this->a + $this->b; //Uses sin()
+        return sin($this->a); //Uses sin()
         break;
 
         case 'cos':
-        return $this->a + $this->b; //Uses cos()
+        return cos($this->a); //Uses cos()
         break;
 
         case 'tan':
-        return $this->a + $this->b; //Uses tan()
+        return tan($this->a); //Uses tan()
         break;
 
         case 'pi':
-        return $this->a + $this->b; //Uses pi() * number
+        return pi(); //Treat this as an number rather than operator
         break;
 
         case 'sinh':
-        return $this->a + $this->b; //Uses sinh()
+        return sinh($this->a); //Uses sinh()
         break;
 
         case 'cosh':
-        return $this->a + $this->b; //Uses cosh()
+        return cosh($this->a); //Uses cosh()
         break;
 
         case 'tanh':
-        return $this->a + $this->b; //Uses tanh()
+        return tanh($this->a); //Uses tanh()
         break;
 
         case 'sqrt':
-        return $this->a + $this->b; //Uses sqrt()
+        return sqrt($this->a); //Uses sqrt()
         break;
 
         case 'log10':
-        return $this->a + $this->b; //Uses log10()
+        return log10($this->a); //Uses log10()
         break;
 
         case 'e':
-        return $this->a + $this->b; //Uses exp(1) = 2.718281828459
+        return exp(1); //Treat this as an number rather than operator
         break;
 
         case 'e^x':
-        return $this->a + $this->b; //Uses exp(number) = 2.718281828459
+        return exp($this->a); //Uses exp(number) = 2.718281828459
+        break;
+
+        case '+/-':
+        return $this->a * -1;
         break;
 
         default:
-        return "Syntax Error";
+        return null;
     }
 }
 
@@ -119,6 +122,14 @@ $int1 = $_POST['int1'];
 $int2 = $_POST['int2'];
 $operator = $_POST['op'];
 
+if(empty($int1)){
+     $int1=0;
+}
+
+if(empty($int2)){
+   $int2=0;
+}
+
 if(!is_numeric($int1)){
     $error[] = "You have entered an invalid input for first input. Please input numbers only";
 }
@@ -127,8 +138,11 @@ if(!is_numeric($int2)){
     $error[] = "You have entered an invalid input for second input. Please input numbers only";
 }
 
+
+
 if(empty($operator)){
     $error[] = "Please select an operator to process your calculation.";
+    $output = $calc->calculateNow($int1, $int2, $operator);
 }
 
     if(sizeof($error) == 0) {
@@ -154,7 +168,7 @@ if(empty($operator)){
 	border-radius: 6px;
 	padding: 5px 5px 5px 5px;
 	width: auto;
-	font-size: 14px;
+	font-size: 20px;
 }
 div.error {
 	display: inline-block;
@@ -163,13 +177,23 @@ div.error {
 	border-radius: 6px;
 	padding: 5px 5px 5px 5px;
 	width: auto;
-	font-size: smaller;
+	font-size: 20px;
+}
+
+div.notice {
+	display: inline-block;
+	background-color: #ffff66;
+    color: #cc9900;
+	border-radius: 6px;
+	padding: 5px 5px 5px 5px;
+	width: auto;
+	font-size: 20px;
 }
   </style>
   </head>
 
   <body>
-<div class="error">
+
 <?php 
            if (isset($error) && sizeof($error) > 0) { 
              ?>
@@ -183,24 +207,46 @@ div.error {
 	?>
 			</div><br>
 <?php } 
+
+ if(!$output == null) {
 ?>
-</div>
-  <form method="POST" action="calculator.php" enctype="multipart/form-data">
-<input type="text" name="int1">
-<input type="text" name="int2">
-<select name="op">
-    <option value="">Pick an operator</option>
-     <option value="+" >+</option>
-     <option value="-">-</option>
-     <option value="*">*</option>
-     <option value="/">/</option>
-     <option value="%">% - Modulus</option>
-<input type="submit" value="=">
-  </form>
 <div class="success">
 <?php
 print $output;
 ?>
 
 </div>
+<?php } ?>
+<br><br>
+
+  <form method="POST" action="calculator.php" enctype="multipart/form-data">
+<input type="text" name="int1" value=0>
+<input type="text" name="int2" value=0>
+<select name="op">
+    <option value="">Pick an operator</option>
+     <option value="+" >+</option>
+     <option value="-">-</option>
+     <option value="*">*</option>
+     <option value="/">/</option>
+     <option value="%">%</option>
+     <option value="x^2" >x^2</option>
+     <option value="x^y">x^y</option>
+     <!-- Unavailable <option value="x!">x!</option> -->
+     <option value="sin">sin</option>
+     <option value="cos">cos</option>
+     <option value="tan" >tan</option>
+     <option value="pi">&pi;</option>
+     <option value="sinh">sinh</option>
+     <option value="cosh">cosh</option>
+     <option value="tanh">tanh</option>
+     <option value="+/-">+/-</option>
+<input type="submit" value="=">
+  </form>
+  <br><br>
+
+  <div class="notice">
+  NOTE: If you use an operator that does not require adding second input (i.e., x^2, sin, +/-), please only input number in the left hand text box and the operator.
+  This application is still working in progress
+  </div>
+ 
   
