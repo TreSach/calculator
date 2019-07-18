@@ -237,7 +237,7 @@ div.notice {
 }
 
 input[type="radio"] {
-    display: none;
+   
     
 }
 
@@ -256,15 +256,12 @@ label {
     color: white;
 }
   </style>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
-
-
-  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   </head>
 <script>
   
   $(function() {
-      $('.box input[name="radio"]').each(function(index) {
+      $('.box input[type="radio"]').each(function(index) {
           console.log($(this));
           $(this).attr('id', 'op' + index);
           var label = $('<label />', {'for': 'op' + index}).html($(this).parent().html());
@@ -273,6 +270,9 @@ label {
       $('label').click(function() {
           $('label').removeClass('selected');
           $(this).addClass('selected');
+          var labID = $(this).attr('for');
+          $('input[type="radio"]'+labID).trigger('click').attr('checked', true);
+          
       });
   });
 </script>
@@ -310,61 +310,61 @@ label {
 <input type="text" name="int1" value="<?php print $int1; ?>">
 <input type="text" name="int2" value="<?php print $int2; ?>">
 
-<td><input type="radio" value="+" name="op"><label for="+">+</label>
+<td><input type="radio" value="+" name="op" id="+"><label for="+">+</label>
      </td>
-     <td><input type="radio" value="-" name="op"><label for="-">-</label>
+     <td><input type="radio" value="-" name="op" id="-"><label for="-">-</label>
      </td>
-     <td><input type="radio" value="*" name="op"><label for="*">*</label>
+     <td><input type="radio" value="*" name="op" id="*"><label for="*">*</label>
      </td>
-     <td><input type="radio" value="/" name="op"><label for="/">/</label>
+     <td><input type="radio" value="/" name="op" id="/"><label for="/">/</label>
      </td>
-    <td><input type="radio" value="%"name="op"><label for="%">%</label>
+    <td><input type="radio" value="%"name="op" id="%"><label for="%">%</label>
      </td>
-    <td> <input type="radio" value="x^2"name="op"><label for="x^2">x^2</label>
+    <td> <input type="radio" value="x^2"name="op" id="x^2"><label for="x^2">x^2</label>
      </td>
-    <td> <input type="radio" value="x^y"name="op"><label for="x^y">x^y</label>
+    <td> <input type="radio" value="x^y"name="op" id="x^y"><label for="x^y">x^y</label>
      </td>
-    <td> <input type="radio" value="ln"name="op"><label for="ln">ln</label>
+    <td> <input type="radio" value="ln"name="op" id="ln"><label for="ln">ln</label>
      </td>
-    <td> <input type="radio" value="log10"name="op"><label for="log10">log10</label>
+    <td> <input type="radio" value="log10"name="op" id="log10"><label for="log10">log10</label>
      </td>
-    <td> <input type="radio" value="e^x"name="op"><label for="e^x">e^x</label>
+    <td> <input type="radio" value="e^x"name="op" id="e^x"><label for="e^x">e^x</label>
      </td>
-    <td> <input type="radio" value="e"name="op"><label for="e">e</label>
+    <td> <input type="radio" value="e"name="op" id="e"><label for="e">e</label>
      </td>
-    <td> <input type="radio" value="sin"name="op"><label for="sin">sin</label>
+    <td> <input type="radio" value="sin"name="op" id="sin"><label for="sin">sin</label>
      </td>
-    <td> <input type="radio" value="cos"name="op"><label for="cos">cos</label>
+    <td> <input type="radio" value="cos"name="op" id="cos"><label for="cos">cos</label>
      </td>
-    <td> <input type="radio" value="tan"name="op"><label for="tan">tan</label>
+    <td> <input type="radio" value="tan"name="op" id="tan"><label for="tan">tan</label>
      </td>
-    <td> <input type="radio" value="pi"name="op"><label for="&pi;">&pi;</label>
+    <td> <input type="radio" value="pi"name="op" id="&pi;"><label for="&pi;">&pi;</label>
      </td>
-    <td> <input type="radio" value="sin^-1"name="op"><label for="sin^-1">sin^-1</label>
+    <td> <input type="radio" value="sin^-1"name="op" id="sin^-1"><label for="sin^-1">sin^-1</label>
      </td>
-    <td> <input type="radio" value="cos^-1"name="op"><label for="cos^-1">cos^-1</label>
+    <td> <input type="radio" value="cos^-1"name="op" id="cos^-1"><label for="cos^-1">cos^-1</label>
      </td>
-    <td> <input type="radio" value="tan^-1"name="op"><label for="tan^-1">tan^-1</label>
+    <td> <input type="radio" value="tan^-1"name="op" id="tan^-1"><label for="tan^-1">tan^-1</label>
      </td>
-    <td> <input type="radio" value="sqrt"name="op"><label for="sqrt">&#8730;</label>
+    <td> <input type="radio" value="sqrt"name="op" id="sqrt"><label for="sqrt">&#8730;</label>
      </td>
-    <td> <input type="radio" value="cubert"name="op"><label for="cubert">&#8731;</label>
+    <td> <input type="radio" value="cubert"name="op" id="cubert"><label for="cubert">&#8731;</label>
      </td>
-    <td> <input type="radio" value="nthrt"name="op"><label for="nthrt">x &#8730;</label>
+    <td> <input type="radio" value="nthrt"name="op" id="nthrt"><label for="nthrt">x &#8730;</label>
      </td>
-    <td> <input type="radio" value="sinh"name="op"><label for="sinh">sinh</label>
+    <td> <input type="radio" value="sinh"name="op" id="sinh"><label for="sinh">sinh</label>
      </td>
-    <td> <input type="radio" value="cosh"name="op"><label for="cosh">cosh</label>
+    <td> <input type="radio" value="cosh"name="op" id="cosh"><label for="cosh">cosh</label>
      </td>
-    <td> <input type="radio" value="tanh"name="op"><label for="tanh">tanh</label>
+    <td> <input type="radio" value="tanh"name="op" id="tanh"><label for="tanh">tanh</label>
      </td>
-    <td> <input type="radio" value="+/-"name="op"><label for="+/-">+/-</label>
+    <td> <input type="radio" value="+/-"name="op" id="+/-"><label for="+/-">+/-</label>
      </td>
-    <td> <input type="radio" value="sinh^-1"name="op"><label for="sinh^-1">sinh^-1</label>
+    <td> <input type="radio" value="sinh^-1"name="op" id="sinh^-1"><label for="sinh^-1">sinh^-1</label>
      </td>
-    <td> <input type="radio" value="cosh^-1"name="op"><label for="cosh^-1">cosh^-1</label>
+    <td> <input type="radio" value="cosh^-1"name="op" id="cosh^-1"><label for="cosh^-1">cosh^-1</label>
      </td>
-    <td> <input type="radio" value="tanh^-1"name="op"><label for="tanh^-1">tanh^-1</label>
+    <td> <input type="radio" value="tanh^-1"name="op" id="tanh^-1"><label for="tanh^-1">tanh^-1</label>
      </td>
 <input type="submit" value="=">
 </table>
