@@ -145,7 +145,7 @@ function processOperation($math){
     }
 }
 
-function calculateNow($a, $b, $operator){
+function calculateNow($a, $b, $operator){ 
     $this->a = $a;
     $this->b = $b;
     
@@ -237,18 +237,45 @@ div.notice {
 }
 
 input[type="radio"] {
-    color: black;
-    visibility: hidden;
-    font-size: 20px;
+    display: none;
+    
 }
 
-input[type="radio"]:checked label {
-    color: green;
-    font-size: 20px;
+.box {
+    margin: 5%;
+}
+
+label {
+    padding: 6px 12px;
+    background-color: yellow;
+    color: black;
+}
+
+.selected {
+    background-color: black;
+    color: white;
 }
   </style>
-  </head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
 
+
+  </script>
+  </head>
+<script>
+  
+  $(function() {
+      $('.box input[name="radio"]').each(function(index) {
+          console.log($(this));
+          $(this).attr('id', 'op' + index);
+          var label = $('<label />', {'for': 'op' + index}).html($(this).parent().html());
+          $(this).parent().empty().append(label);
+      });
+      $('label').click(function() {
+          $('label').removeClass('selected');
+          $(this).addClass('selected');
+      });
+  });
+</script>
   <body>
 
 <?php 
@@ -278,43 +305,67 @@ input[type="radio"]:checked label {
 <?php } ?>
 <br><br>
 
-  <form method="POST" action="calculator.php" enctype="multipart/form-data">
+  <form method="POST" action="calculator.php" enctype="multipart/form-data" class="box">
   <table>
 <input type="text" name="int1" value="<?php print $int1; ?>">
 <input type="text" name="int2" value="<?php print $int2; ?>">
 
-<td><label for="+">+</label>
-     <input type="radio" value="+"></td>
-     <td><label for="-">-</label>
-     <input type="radio" value="-"></td>
-     <td><label for="*">*</label>
-     <input type="radio" value="*"></td>
-     <td><label for="/">/</label>
-     <input type="radio" value="/"></td>
-    <!-- <input type="radio" value="%">
-     <input type="radio" value="x^2">
-     <input type="radio" value="x^y">
-     <input type="radio" value="ln">
-     <input type="radio" value="log10">
-     <input type="radio" value="e^x">
-     <input type="radio" value="e">
-     <input type="radio" value="sin">
-     <input type="radio" value="cos">
-     <input type="radio" value="tan">
-     <input type="radio" value="pi">&pi;
-     <input type="radio" value="sin^-1">
-     <input type="radio" value="cos^-1">
-     <input type="radio" value="tan^-1">
-     <input type="radio" value="sqrt">&#8730;
-     <input type="radio" value="cubert">&#8731;
-     <input type="radio" value="nthrt">x &#8730;
-     <input type="radio" value="sinh">
-     <input type="radio" value="cosh">
-     <input type="radio" value="tanh">
-     <input type="radio" value="+/-">
-     <input type="radio" value="sinh^-1">
-     <input type="radio" value="cosh^-1">
-     <input type="radio" value="tanh^-1">-->
+<td><input type="radio" value="+" name="op"><label for="+">+</label>
+     </td>
+     <td><input type="radio" value="-" name="op"><label for="-">-</label>
+     </td>
+     <td><input type="radio" value="*" name="op"><label for="*">*</label>
+     </td>
+     <td><input type="radio" value="/" name="op"><label for="/">/</label>
+     </td>
+    <td><input type="radio" value="%"name="op"><label for="%">%</label>
+     </td>
+    <td> <input type="radio" value="x^2"name="op"><label for="x^2">x^2</label>
+     </td>
+    <td> <input type="radio" value="x^y"name="op"><label for="x^y">x^y</label>
+     </td>
+    <td> <input type="radio" value="ln"name="op"><label for="ln">ln</label>
+     </td>
+    <td> <input type="radio" value="log10"name="op"><label for="log10">log10</label>
+     </td>
+    <td> <input type="radio" value="e^x"name="op"><label for="e^x">e^x</label>
+     </td>
+    <td> <input type="radio" value="e"name="op"><label for="e">e</label>
+     </td>
+    <td> <input type="radio" value="sin"name="op"><label for="sin">sin</label>
+     </td>
+    <td> <input type="radio" value="cos"name="op"><label for="cos">cos</label>
+     </td>
+    <td> <input type="radio" value="tan"name="op"><label for="tan">tan</label>
+     </td>
+    <td> <input type="radio" value="pi"name="op"><label for="&pi;">&pi;</label>
+     </td>
+    <td> <input type="radio" value="sin^-1"name="op"><label for="sin^-1">sin^-1</label>
+     </td>
+    <td> <input type="radio" value="cos^-1"name="op"><label for="cos^-1">cos^-1</label>
+     </td>
+    <td> <input type="radio" value="tan^-1"name="op"><label for="tan^-1">tan^-1</label>
+     </td>
+    <td> <input type="radio" value="sqrt"name="op"><label for="sqrt">&#8730;</label>
+     </td>
+    <td> <input type="radio" value="cubert"name="op"><label for="cubert">&#8731;</label>
+     </td>
+    <td> <input type="radio" value="nthrt"name="op"><label for="nthrt">x &#8730;</label>
+     </td>
+    <td> <input type="radio" value="sinh"name="op"><label for="sinh">sinh</label>
+     </td>
+    <td> <input type="radio" value="cosh"name="op"><label for="cosh">cosh</label>
+     </td>
+    <td> <input type="radio" value="tanh"name="op"><label for="tanh">tanh</label>
+     </td>
+    <td> <input type="radio" value="+/-"name="op"><label for="+/-">+/-</label>
+     </td>
+    <td> <input type="radio" value="sinh^-1"name="op"><label for="sinh^-1">sinh^-1</label>
+     </td>
+    <td> <input type="radio" value="cosh^-1"name="op"><label for="cosh^-1">cosh^-1</label>
+     </td>
+    <td> <input type="radio" value="tanh^-1"name="op"><label for="tanh^-1">tanh^-1</label>
+     </td>
 <input type="submit" value="=">
 </table>
   </form>
