@@ -10,16 +10,6 @@ class calculateMe{
  var $a;
  var $b;
 
- /*function factorialNotation($num){
-    $factor =1;
-        for($x=$num; $x>=1; $x--){
-            $factor = $factor * $x;
-           
-        }
-       
-    
- }*/
-
 
 function processOperation($math){
 
@@ -245,6 +235,17 @@ div.notice {
 	width: auto;
 	font-size: 20px;
 }
+
+input[type="radio"] {
+    color: black;
+    visibility: hidden;
+    font-size: 20px;
+}
+
+input[type="radio"]:checked label {
+    color: green;
+    font-size: 20px;
+}
   </style>
   </head>
 
@@ -278,39 +279,44 @@ div.notice {
 <br><br>
 
   <form method="POST" action="calculator.php" enctype="multipart/form-data">
+  <table>
 <input type="text" name="int1" value="<?php print $int1; ?>">
 <input type="text" name="int2" value="<?php print $int2; ?>">
-<select name="op">
-    <option value="">Pick an operator</option>
-     <option value="+">+</option>
-     <option value="-">-</option>
-     <option value="*">*</option>
-     <option value="/">/</option>
-     <option value="%">%</option>
-     <option value="x^2">x^2</option>
-     <option value="x^y">x^y</option>
-     <option value="ln">ln</option>
-     <option value="log10">log10</option>
-     <option value="e^x">e^x</option>
-     <option value="e">e</option>
-     <option value="sin">sin</option>
-     <option value="cos">cos</option>
-     <option value="tan">tan</option>
-     <option value="pi">&pi;</option>
-     <option value="sin^-1">sin^-1</option>
-     <option value="cos^-1">cos^-1</option>
-     <option value="tan^-1">tan^-1</option>
-     <option value="sqrt">&#8730;</option>
-     <option value="cubert">&#8731;</option>
-     <option value="nthrt">x &#8730;</option>
-     <option value="sinh">sinh</option>
-     <option value="cosh">cosh</option>
-     <option value="tanh">tanh</option>
-     <option value="+/-">+/-</option>
-     <option value="sinh^-1">sinh^-1</option>
-     <option value="cosh^-1">cosh^-1</option>
-     <option value="tanh^-1">tanh^-1</option>
+
+<td><label for="+">+</label>
+     <input type="radio" value="+"></td>
+     <td><label for="-">-</label>
+     <input type="radio" value="-"></td>
+     <td><label for="*">*</label>
+     <input type="radio" value="*"></td>
+     <td><label for="/">/</label>
+     <input type="radio" value="/"></td>
+    <!-- <input type="radio" value="%">
+     <input type="radio" value="x^2">
+     <input type="radio" value="x^y">
+     <input type="radio" value="ln">
+     <input type="radio" value="log10">
+     <input type="radio" value="e^x">
+     <input type="radio" value="e">
+     <input type="radio" value="sin">
+     <input type="radio" value="cos">
+     <input type="radio" value="tan">
+     <input type="radio" value="pi">&pi;
+     <input type="radio" value="sin^-1">
+     <input type="radio" value="cos^-1">
+     <input type="radio" value="tan^-1">
+     <input type="radio" value="sqrt">&#8730;
+     <input type="radio" value="cubert">&#8731;
+     <input type="radio" value="nthrt">x &#8730;
+     <input type="radio" value="sinh">
+     <input type="radio" value="cosh">
+     <input type="radio" value="tanh">
+     <input type="radio" value="+/-">
+     <input type="radio" value="sinh^-1">
+     <input type="radio" value="cosh^-1">
+     <input type="radio" value="tanh^-1">-->
 <input type="submit" value="=">
+</table>
   </form>
   <br><br>
 
