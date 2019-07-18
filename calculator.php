@@ -2,7 +2,8 @@
 
 $error = [];
 $output = 0;
-
+$int1 = '';
+$int2 = '';
 
 class calculateMe{
 
@@ -186,10 +187,12 @@ if(empty($int2)){
 
 if(!is_numeric($int1)){
     $error[] = "You have entered an invalid input for first input. Please input numbers only";
+
 }
 
 if(!is_numeric($int2)){
     $error[] = "You have entered an invalid input for second input. Please input numbers only";
+    
 }
 
 
@@ -275,8 +278,8 @@ div.notice {
 <br><br>
 
   <form method="POST" action="calculator.php" enctype="multipart/form-data">
-<input type="text" name="int1" value=0>
-<input type="text" name="int2" value=0>
+<input type="text" name="int1" value="<?php print $int1; ?>">
+<input type="text" name="int2" value="<?php print $int2; ?>">
 <select name="op">
     <option value="">Pick an operator</option>
      <option value="+">+</option>
