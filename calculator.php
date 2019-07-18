@@ -3,12 +3,26 @@
 $error = [];
 $output = 0;
 
+
 class calculateMe{
 
  var $a;
  var $b;
 
+ /*function factorialNotation($num){
+    $factor =1;
+        for($x=$num; $x>=1; $x--){
+            $factor = $factor * $x;
+           
+        }
+       
+    
+ }*/
+
+
 function processOperation($math){
+
+    
 
     switch($math){
 
@@ -44,11 +58,11 @@ function processOperation($math){
         break;
 
         case 'x^y':
-        return pow($this->a, $this->b); //Uses pow(base, exponent);
+        return $this->a ** $this->b; //Can use pow($this->a, $this->b); instead
         break;
 
         case 'x!':
-        return $this->a + $this->b; //Maybe add a separate function. Reference: Factorial notation? - Not Complete
+        return gmp_strval(gmp_fact($this->a)); //GMP class extension was disabled by default.
         break;
 
         case 'sin':
@@ -79,8 +93,20 @@ function processOperation($math){
         return tanh($this->a); //Uses tanh()
         break;
 
-        case 'sqrt':
-        return sqrt($this->a); //Uses sqrt()
+        case 'cubert':
+        return pow($this->a, 1/3); //Uses sqrt()
+        break;
+
+        case 'nthrt':
+        return $this->a ** 1/$this->b; //Uses pow($this->a, 1/$this->b);
+        break;
+
+        case 'numrtnum':
+        return $this->a * pow($this->a, 1/$this->b); //Uses sqrt()
+        break;
+
+        case 'ln':
+        return log($this->a); //Uses log10()
         break;
 
         case 'log10':
@@ -99,6 +125,30 @@ function processOperation($math){
         return $this->a * -1;
         break;
 
+        case 'sin^-1':
+        return asin($this->a); //Uses sinh()
+        break;
+
+        case 'cos^-1':
+        return acos($this->a); //Uses cosh()
+        break;
+
+        case 'tan^-1':
+        return atan($this->a); //Uses tanh()
+        break;
+
+        case 'sinh^-1':
+        return asinh($this->a); //Uses sinh()
+        break;
+
+        case 'cosh^-1':
+        return acosh($this->a); //Uses cosh()
+        break;
+
+        case 'tanh^-1':
+        return atanh($this->a); //Uses tanh()
+        break;
+
         default:
         return null;
     }
@@ -107,7 +157,11 @@ function processOperation($math){
 function calculateNow($a, $b, $operator){
     $this->a = $a;
     $this->b = $b;
-    return $this->processOperation($operator);
+    
+    
+        return $this->processOperation($operator);
+
+     
 }
 
 }
@@ -142,7 +196,6 @@ if(!is_numeric($int2)){
 
 if(empty($operator)){
     $error[] = "Please select an operator to process your calculation.";
-    $output = $calc->calculateNow($int1, $int2, $operator);
 }
 
     if(sizeof($error) == 0) {
@@ -212,7 +265,9 @@ div.notice {
 ?>
 <div class="success">
 <?php
-print $output;
+
+    print $output;
+
 ?>
 
 </div>
@@ -224,22 +279,34 @@ print $output;
 <input type="text" name="int2" value=0>
 <select name="op">
     <option value="">Pick an operator</option>
-     <option value="+" >+</option>
+     <option value="+">+</option>
      <option value="-">-</option>
      <option value="*">*</option>
      <option value="/">/</option>
      <option value="%">%</option>
-     <option value="x^2" >x^2</option>
+     <option value="x^2">x^2</option>
      <option value="x^y">x^y</option>
-     <!-- Unavailable <option value="x!">x!</option> -->
+     <option value="ln">ln</option>
+     <option value="log10">log10</option>
+     <option value="e^x">e^x</option>
+     <option value="e">e</option>
      <option value="sin">sin</option>
      <option value="cos">cos</option>
-     <option value="tan" >tan</option>
+     <option value="tan">tan</option>
      <option value="pi">&pi;</option>
+     <option value="sin^-1">sin^-1</option>
+     <option value="cos^-1">cos^-1</option>
+     <option value="tan^-1">tan^-1</option>
+     <option value="sqrt">&#8730;</option>
+     <option value="cubert">&#8731;</option>
+     <option value="nthrt">x &#8730;</option>
      <option value="sinh">sinh</option>
      <option value="cosh">cosh</option>
      <option value="tanh">tanh</option>
      <option value="+/-">+/-</option>
+     <option value="sinh^-1">sinh^-1</option>
+     <option value="cosh^-1">cosh^-1</option>
+     <option value="tanh^-1">tanh^-1</option>
 <input type="submit" value="=">
   </form>
   <br><br>
