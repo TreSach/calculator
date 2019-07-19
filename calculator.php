@@ -207,9 +207,13 @@ if(empty($operator)){
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Patua+One&display=swap" rel="stylesheet">
   <style>
   *{
     box-sizing: border-box;
+  }
+  body{
+    font-family: 'Patua One', cursive;
   }
   div.success {
 	display: inline-block;
@@ -217,7 +221,7 @@ if(empty($operator)){
   color: #009933;
 	border-radius: 6px;
 	padding: 5px 5px 5px 5px;
-	width: auto;
+	width: 50%;
 	font-size: 20px;
 }
 div.error {
@@ -241,18 +245,24 @@ div.notice {
 }
 
 form{
-  margin: 15%;
-  min-height: 100vh;
+  margin: 0 auto;
+
+  padding-top: 3%;
+  min-height: 70vh;
   display:flex;
   justify-content: center;
  align-items: flex-start;
 }
 
 .box {
+  
   margin-top: 5%;
+  padding-top: 5%;
   display:flex;
   flex-wrap: wrap;
   align-content: flex-start;
+  justify-content: center;
+ align-items: flex-start;
   flex: 0 1 60%;
   min-width:400px;
 }
@@ -262,31 +272,59 @@ input[type="radio"] {
   
 }
 
-input[type="text"] {
+input[type="text"], div.success {
   text-align: right;
+  max-width: 100%;
+ 
 }
 
 
 
 label {
     border: 1px solid black;
-    background-color: yellow;
-    color: black;
+    background-color: #009bd9;
+    color: #0207a1;
     font-size: 20px;
 }
 
 .selected {
-    background-color: black;
-    color: white;
+    background-color: #b1b1b3 !important;
+    color: #fff;
 }
 
+.basic {
+  background-color: #0d0191;
+  color: white;
+  font-size:26px;
+}
+
+input[type="text"]{
+  border: 5px solid #03013b;
+  padding: 10px; 
+  color: #000;
+  width: 30%;
+}
+
+.left-text {
+font-size: 24px;
+  border-top-left-radius: 20px;
+}
+
+.right-text {
+  font-size: 24px;
+   border-top-right-radius: 20px;
+}
 .num{
-  display: block;
-  height: 50px;
+  border: 0;
+  
+  display: flex;
+  flex-wrap: wrap;
+  flex: 0 1 100%;
+  
  margin: 0 auto;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-  font-size: 1.5em;
+  font-size: 18px;
 }
 
 .btn {
@@ -301,6 +339,7 @@ label {
 }
 
 label, input[type="submit"] {
+ // border-radius: 20px;
   display:flex;
    flex: 0 1 10%;
   justify-content: center;
@@ -309,13 +348,25 @@ label, input[type="submit"] {
 }
 
 input[type="submit"]{
+  border: 1px solid black;
   flex: 0 1 20%;
-  border: 0;
-  background-color: black;
-  color: white;
-
+  
+  background-color: #66ff99;
+  color: #009933;
+font-size: 26px;
 }
 
+::placeholder { /* Firefox, Chrome, Opera */ 
+    color: gray; 
+} 
+  
+:-ms-input-placeholder { /* Internet Explorer  */ 
+    color: gray; 
+} 
+  
+::-ms-input-placeholder { /* Microsoft Edge */ 
+    color: gray; 
+} 
 
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -361,32 +412,41 @@ input[type="submit"]{
 ?>
 
   <form method="POST" action="calculator.php" enctype="multipart/form-data" class="box">
-  <div class="success btn">
+
+  <?php
+  if($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+  ?>
+  <div class="success">
 <?php
   print $output;
 ?>
 
 </div>
+<?php
+}
+?>
   <div class="num">
-<input type="text" name="int1" value="<?php print $int1; ?>">
-<input type="text" name="int2" value="<?php print $int2; ?>">
+<input type="text" name="int1" value="<?php print $int1; ?>" placeholder="0" class="left-text">
+<input type="text" name="int2" value="<?php print $int2; ?>" placeholder="0" class="right-text">
 </div>
 
 <div class="btn">
-<input type="radio" value="+" name="op" id="+"><label for="+">+</label>
+
+<input type="radio" value="x^2"name="op" id="x^2"><label for="x^2">x<sup class="small">2</sup></label>
      
-     <input type="radio" value="-" name="op" id="-"><label for="-">-</label>
+<input type="radio" value="log10"name="op" id="log10"><label for="log10">log<sub class="small">10</sub></label>
+<input type="radio" value="sqrt"name="op" id="sqrt"><label for="sqrt">&#8730;</label>
      
-     <input type="radio" value="*" name="op" id="*"><label for="*">*</label>
      
-     <input type="radio" value="/" name="op" id="/"><label for="/">/</label>
      
     <input type="radio" value="%"name="op" id="%"><label for="%">%</label>
-    <input type="radio" value="e"name="op" id="e"><label for="e">e</label></div>
+    <input type="radio" value="e"name="op" id="e"><label for="e">e</label>
+    <input type="radio" value="+" name="op" id="+"><label for="+" class="basic">+</label></div>
      
      
       <div class="btn">
-      <input type="radio" value="x^2"name="op" id="x^2"><label for="x^2">x<sup class="small">2</sup></label>
+      
     
      <input type="radio" value="x^y"name="op" id="x^y"><label for="x^y">x<sup class="small">y</sup></label>
   
@@ -396,11 +456,12 @@ input[type="submit"]{
      
      <input type="radio" value="cos"name="op" id="cos"><label for="cos">cos</label>
      <input type="radio" value="tan"name="op" id="tan"><label for="tan">tan</label>
+     <input type="radio" value="-" name="op" id="-"><label for="-" class="basic">-</label>
      </div>
 
 
      <div class="btn">
-     <input type="radio" value="log10"name="op" id="log10"><label for="log10">log<sub class="small">10</sub></label>
+     
      <input type="radio" value="ln"name="op" id="ln"><label for="ln">ln</label>
      <input type="radio" value="pi"name="op" id="&pi;"><label for="&pi;">&pi;</label>
      
@@ -409,11 +470,11 @@ input[type="submit"]{
      <input type="radio" value="cos^-1"name="op" id="cos^-1"><label for="cos^-1">cos<sup class="small">-1</sup></label>
      
      <input type="radio" value="tan^-1"name="op" id="tan^-1"><label for="tan^-1">tan<sup class="small">-1</sup></label>
-     </div>
+     <input type="radio" value="*" name="op" id="*"><label for="*" class="basic">x</label></div>
 
 
      <div class="btn">
-     <input type="radio" value="sqrt"name="op" id="sqrt"><label for="sqrt">&#8730;</label>
+     
      <input type="radio" value="cubert"name="op" id="cubert"><label for="cubert">&#8731;</label>
 
      <input type="radio" value="nthrt"name="op" id="nthrt"><label for="nthrt"><sup class="small">x</sup>&#8730;</label>
@@ -423,7 +484,7 @@ input[type="submit"]{
      <input type="radio" value="cosh"name="op" id="cosh"><label for="cosh">cosh</label>
      
      <input type="radio" value="tanh"name="op" id="tanh"><label for="tanh">tanh</label>
-     
+     <input type="radio" value="/" name="op" id="/"><label for="/" class="basic">&divide;</label>
     </div>
 
      <div class="btn">
@@ -441,9 +502,9 @@ input[type="submit"]{
 
   </form>
   
-  <!--<div class="notice">
-  NOTE: If you use an operator that does not require adding second input (i.e., x^2, sin, +/-), please only input number in the left hand text box and the operator.
-  This application is still working in progress
-  </div>-->
+  <div class="notice">
+  NOTE: If you use an operator that does not require adding second input (i.e., x^2, sin, +/-), please only input number in the left hand text box and the operator. For instance, I type 5 in left text box, select x<sup class="small">2</sup>, and then select equal (or press Enter key!). That will be 25.
+  This application is still working in progress.
+  </div>
  
   
