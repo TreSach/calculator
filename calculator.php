@@ -189,6 +189,7 @@ if(!is_numeric($int2)){
 
 if(empty($operator)){
     $error[] = "Please select an operator to process your calculation.";
+    $operater = '';
 }
 
     if(sizeof($error) == 0) {
@@ -239,7 +240,8 @@ div.notice {
 	font-size: 20px;
 }
 
-body{
+form{
+  margin: 15%;
   min-height: 100vh;
   display:flex;
   justify-content: center;
@@ -247,32 +249,27 @@ body{
 }
 
 .box {
+  margin-top: 5%;
   display:flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   flex: 0 1 60%;
   min-width:400px;
 }
 
 input[type="radio"] {
-   
-    visibility: hidden;
+   display:none;
+   // visibility: hidden;
 }
 
 input[type="text"] {
   text-align: right;
 }
 
-.box table {
-    display:flex;
-    flex-wrap: wrap;
-    flex: 0 1 60%;
-    min-width: 800px;
-}
-
 
 
 label {
-    
+    border: 1px solid black;
     background-color: yellow;
     color: black;
 }
@@ -282,7 +279,14 @@ label {
     color: white;
 }
 
-
+.num{
+  display: block;
+  height: 50px;
+ margin: 0 auto;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 1.5em;
+}
 
 .btn {
   display: flex;
@@ -291,12 +295,19 @@ label {
  
 }
 
-label {
+label, input[type="submit"] {
   display:flex;
    flex: 0 1 10%;
   justify-content: center;
   align-items: center;
   height: 50px;
+}
+
+input[type="submit"]{
+  border: 0;
+  background-color: black;
+  color: white;
+
 }
 
 
@@ -316,6 +327,12 @@ label {
           
           
       });
+
+      $(document).on("keydown", "input"), function(e){
+        if(e.which == 13) {
+          $("form").submit();
+        }
+      }
   });
 </script>
   <body>
@@ -336,22 +353,15 @@ label {
 
  
 ?>
-<div class="success">
+
+  <form method="POST" action="calculator.php" enctype="multipart/form-data" class="box">
+  <div class="success btn">
 <?php
-
   print $output;
-
-    
-
 ?>
 
 </div>
-
-<br><br>
-
-  <form method="POST" action="calculator.php" enctype="multipart/form-data" class="box">
-
-  <div>
+  <div class="num">
 <input type="text" name="int1" value="<?php print $int1; ?>">
 <input type="text" name="int2" value="<?php print $int2; ?>">
 </div>
@@ -417,7 +427,7 @@ label {
      <input type="radio" value="cosh^-1"name="op" id="cosh^-1"><label for="cosh^-1">cosh^-1</label>
      
      <input type="radio" value="tanh^-1"name="op" id="tanh^-1"><label for="tanh^-1">tanh^-1</label>
-
+   
      <input type="submit" value="=">
      </div>
 
