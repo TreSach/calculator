@@ -10,19 +10,30 @@
 <style>
 
 .calc-table{
-
+    width: 35%;
+    background-color: #141e2e;
+    border-radius: 2.5em;
 }
 
-table {
-
+.calc-total{
+    display: inline-block;
+    background-color: #949396;
+    color: black !important;
+    border-radius: 6px;
+    padding: 5px 5px 5px 5px;
+    font-size: 20px;
+    font-weight: bolder;
 }
 
-td {
-
-}
-
-tr {
-
+.calc-row {
+    background-color: #141e2e;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin: 7px 5px;
+    border-radius: 15px;
+    width: 5em;
+    display: inline-block;
 }
 
 </style>
@@ -30,52 +41,159 @@ tr {
 </head>
 
 <script>
-<!-- Add jQuery functions here -->
+// Add jQuery functions here
 
 $(document).ready(function () {
+var input1 = 0;
+var input2 = 0;
+var operator = '';
+var total = 0;
+calculateNow(total);
 
+$(".btn").on('click', function(evt){
+    var clicked = $(this).html();
+    console.log(clicked);
 
-})
+//Add values to the total box for each button pressed
+
+    switch(clicked){
+
+        //Clearing the memory
+        case 'C':
+        total =0;
+        input1 =0;
+        break;
+
+        case '+':
+        return '+';
+        break;
+
+        case '-':
+        return '-';
+        break;
+
+        case '*':
+        return '*';
+        break;
+
+        case '/':
+        return '/';
+        break; 
+
+        case '%':
+        return input1 / 100; 
+        break;
+
+        case '.':
+        return input1 += '.'; 
+        break;
+        
+        case '=':
+        input1 = calculateNow(input1, input2, operator);
+        operator = null;
+
+        default:
+        return clicked;
+    }
+
+    if(clicked.isNumeric() = true){
+        if(input1 == '0'){
+            input1 = clicked;
+        } else{
+            input1 = input1 + clicked;
+        } 
+
+    }elseif(clickOperator(clicked))
+            //Once the operator is clicked, move input1 value to input2 and replace input1 value as an empty string
+            input2 = input1;
+            operator = clicked;
+            input1 = '';
+        
+
+        calculateMe(total);
+});
+
+});
+
+calculateMe = function(data){
+    var data = data.toString();
+    $('input#total').html(data.substring(0,10)).val(data);
+};
+
+calculateNow = function (a, b, operator) {
+
+console.log(a, b, operator);
+    //Process the operation based on what operator(s) are used.
+    switch(operator) {
+        case '+':
+        return a + b;
+        break;
+
+        case '-':
+        return a - b;
+        break;
+
+        case '*':
+        return a * b;
+        break;
+
+        case '/':
+        return a / b;
+        break; 
+
+        default:
+
+    }
+}
 </script>
 
 <body>
 <p>jQuery Calculator App is currently under maintenance!</p>
 
 <div class="calc-table">
-<table>
-<tr>
-<td colspan="3"><input type="text" id="total"/></td>
-</tr>
 
-<tr>
-<td><input type="button" value="AC"></td>
-<td><input type="button" value="+/-"></td>
-<td><input type="button" value="%"></td>
-<td><input type="button" value="&divide;"></td>
+<div class="calc-total">
+<input type="text" id="total"/>
+</div>
 
-<td><input type="button" value="7"></td>
-<td><input type="button" value="8"></td>
-<td><input type="button" value="9"></td>
-<td><input type="button" value="x"></td>
+<div class="calc-row">
+<input type="button" class="btn" value="AC">
+<input type="button" class="btn" value="+/-">
+<input type="button" class="btn" value="%">
+<input type="button" class="btn" value="&divide;">
+</div>
 
-<td><input type="button" value="4"></td>
-<td><input type="button" value="5"></td>
-<td><input type="button" value="6"></td>
-<td><input type="button" value="-"></td>
+<div class="calc-row">
+<input type="button" class="btn" value="7">
+<input type="button" class="btn" value="8">
+<input type="button" class="btn" value="9">
+<input type="button" class="btn" value="x">
+</div>
 
-<td><input type="button" value="1"></td>
-<td><input type="button" value="2"></td>
-<td><input type="button" value="3"></td>
-<td><input type="button" value="+"></td>
+<div class="calc-row">
+<input type="button" class="btn" value="4">
+<input type="button" class="btn" value="5">
+<input type="button" class="btn" value="6">
+<input type="button" class="btn" value="-">
+</div>
 
-<td><input type="button" value="0"></td>
-<td><input type="button" value="."></td>
-<td><input type="button" value="="></td>
+<div class="calc-row">
+<input type="button" class="btn" value="1">
+<input type="button" class="btn" value="2">
+<input type="button" class="btn" value="3">
+<input type="button" class="btn" value="+">
+</div>
 
-</tr>
+<div class="calc-row">
+<input type="button" class="btn" value="0">
+<input type="button" class="btn" value=".">
+<input type="button" class="btn" value="=">
+</div>
+
+</div>
 
 <!-- Maybe considering adding scientific features? -->
-</table>
+
 </div>
 </body>
 </html>
