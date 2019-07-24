@@ -1,8 +1,12 @@
 <?php
 
+error_reporting(E_ERROR); //only output for PHP Errors
+
+//Initialize the variables
 $error = [];
 $int1 = '';
 $int2 = '';
+
 
 class calculateMe{
 
@@ -35,7 +39,7 @@ function processOperation($math){
         break;
 
         case '%':
-        return $this->a / 100; // Removed Modulus; convert integer into percentage.
+        return $this->a / 100; 
         break;
 
         case 'x^2':
@@ -47,87 +51,87 @@ function processOperation($math){
         break;
 
         case 'x!':
-        return gmp_strval(gmp_fact($this->a)); //GMP class extension was disabled by default.
+        return gmp_strval(gmp_fact($this->a)); //GMP class was disabled by default. Enable it to use factorial notation
         break;
 
         case 'sin':
-        return sin($this->a); //Uses sin()
+        return sin($this->a);
         break;
 
         case 'cos':
-        return cos($this->a); //Uses cos()
+        return cos($this->a); 
         break;
 
         case 'tan':
-        return tan($this->a); //Uses tan()
+        return tan($this->a); 
         break;
 
         case 'pi':
-        return pi(); //Treat this as an number rather than operator. It only outputs approximately 3.14.
+        return pi(); //Only output as approximately 3.14
         break;
 
         case 'sinh':
-        return sinh($this->a); //Uses sinh()
+        return sinh($this->a); 
         break;
 
         case 'cosh':
-        return cosh($this->a); //Uses cosh()
+        return cosh($this->a); 
         break;
 
         case 'tanh':
-        return tanh($this->a); //Uses tanh()
+        return tanh($this->a);
         break;
 
         case 'cubert':
-        return pow($this->a, 1/3); //Uses sqrt()
+        return pow($this->a, 1/3); 
         break;
 
         case 'nthrt':
-        return $this->a ** 1/$this->b; //Uses pow($this->a, 1/$this->b);
+        return $this->a ** 1/$this->b; 
         break;
 
         case 'numrtnum':
-        return $this->a * pow($this->a, 1/$this->b); //Uses sqrt()
+        return $this->a * pow($this->a, 1/$this->b);
         break;
 
         case 'ln':
-        return log($this->a); //Uses log10()
+        return log($this->a); // loge(X) = ln(X)
         break;
 
         case 'log10':
-        return log10($this->a); //Uses log10()
+        return log10($this->a); 
         break;
 
         case 'e':
-        return exp(1); //Treat this as an number rather than operator Cannot perform operation like 3e. To do this, get the value for e then copy to the second input. type 3 in the first input and select "*" to process it.
+        return exp(1); //Only outputs the value of 'e'
         break;
 
         case 'e^x':
-        return exp($this->a); //Uses exp(number) = 2.718281828459
+        return exp($this->a); 
         break;
 
         case 'sin^-1':
-        return asin($this->a); //Uses sinh()
+        return asin($this->a); 
         break;
 
         case 'cos^-1':
-        return acos($this->a); //Uses cosh()
+        return acos($this->a); 
         break;
 
         case 'tan^-1':
-        return atan($this->a); //Uses tanh()
+        return atan($this->a);
         break;
 
         case 'sinh^-1':
-        return asinh($this->a); //Uses sinh()
+        return asinh($this->a); 
         break;
 
         case 'cosh^-1':
-        return acosh($this->a); //Uses cosh()
+        return acosh($this->a);
         break;
 
         case 'tanh^-1':
-        return atanh($this->a); //Uses tanh()
+        return atanh($this->a); 
         break;
 
         default:
@@ -138,9 +142,8 @@ function processOperation($math){
 function calculateNow($a, $b, $operator){ 
     $this->a = $a;
     $this->b = $b;
-    
-        return $this->processOperation($operator);
-     
+    return $this->processOperation($operator);
+
 }
 
 }
@@ -154,6 +157,8 @@ $int1 = $_POST['int1'];
 $int2 = $_POST['int2'];
 $operator = $_POST['op'];
 
+
+//Validate inputs and replace empty space as 0. Some operators may take only the first number input
 if(empty($int1)){
      $int1=0;
 }
@@ -162,27 +167,35 @@ if(empty($int2)){
    $int2=0;
 }
 
-if(!is_numeric($int1)){
-    $error[] = "You have entered an invalid input for first input. Please input numbers only";
+if(!preg_match("^(\.{1}|\d)$^", $int1)){
+    $error[] = "First Input - Invalid Number Input.";
 
+} elseif(strlen(trim($int1)) >= 31) {
+    $error[] = "First Input - Too many digits. Only less than or equal to 30 digits are accepted.";
+
+} elseif(substr_count($int1, '.') > 1){
+  $error[] = "First Input - Only one decimal point is accepted.";
 }
 
-if(!is_numeric($int2)){
-    $error[] = "You have entered an invalid input for second input. Please input numbers only";
-    
-}
+if(!preg_match("^(\.{1}|\d)$^", $int2)){
+  $error[] = "Second Input - Invalid Number Input.";
 
+} elseif(strlen(trim($int2)) >= 31) {
+  $error[] = "Second Input - Too many digits. Only less than or equal to 30 digits are accepted.";
+
+} elseif(substr_count($int2, '.') > 1){
+$error[] = "Second Input - Only one decimal point is accepted.";
+}
 
 if(empty($operator)){
-    $error[] = "Please select an operator to process your calculation.";
+    $error[] = "Select an operator to process your calculation.";
     $operater = '';
 }
 
     if(sizeof($error) == 0) {
         $output = $calc->calculateNow($int1, $int2, $operator);
 
-    }
-    
+    } 
 }
 
 ?>
@@ -191,7 +204,7 @@ if(empty($operator)){
 <html lang="en">
 
 <head>
-    <title>PHP-based Calculator</title>
+    <title>Scientific PHP Calculator</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -208,19 +221,21 @@ if(empty($operator)){
         #result {
             display: inline-block;
             background-color: #66ff99;
-            color: #009933;
+            color: #009933 !important;
             border-radius: 6px;
             padding: 5px 5px 5px 5px;
+
             font-size: 20px;
+            font-weight: bolder;
         }
 
-        div.error {
+        .error {
             display: inline-block;
             background-color: #ffcccc;
-            color: #990000;
+            color: #990000 !important;
             border-radius: 6px;
             padding: 5px 5px 5px 5px;
-            width: auto;
+            width: 30%;
             font-size: 20px;
         }
 
@@ -264,13 +279,17 @@ if(empty($operator)){
             max-width: 100%;
         }
 
-
-        label,
-        input[type="submit"] {
+        label {
             border: 1px solid #141e2e;
             background-color: #1a283d;
             color: #acaeb0;
             font-size: 20px;
+        }
+
+        input[type="submit"] {
+            border: 1px solid #141e2e;
+            background-color: #1a283d;
+            color: #acaeb0;
         }
 
         .selected {
@@ -278,21 +297,22 @@ if(empty($operator)){
             color: #fff;
         }
 
-        .basic {
-            background-color: #0d0191 !important;
+        .basic,
+        input[type="submit"] {
+            background-color: #0d0191;
             color: white !important;
             font-size: 26px;
         }
 
         input[type="text"],
-        #result {
+        #result,
+        #error {
             padding: 20px;
             color: #000;
             width: 30%;
             font-size: 18px;
             border: 0;
         }
-
 
         .num {
             border: 0;
@@ -333,7 +353,6 @@ if(empty($operator)){
         input[type="text"] {
             background-color: #141e2e;
             color: white;
-
         }
 
         #break-it {
@@ -341,14 +360,17 @@ if(empty($operator)){
         }
 
         ::placeholder {
+            /* Firefox, Chrome, Opera */
             color: white;
         }
 
         :-ms-input-placeholder {
+            /* Internet Explorer  */
             color: white;
         }
 
         ::-ms-input-placeholder {
+            /* Microsoft Edge */
             color: white;
         }
     </style>
@@ -370,34 +392,34 @@ if(empty($operator)){
 </script>
 
 <body>
-
-    <?php 
-           if (isset($error) && sizeof($error) > 0) { 
-             ?>
-
-    <div class="error"><b>Syntax Error Reporting:</b>
-        <?php
-				foreach ($error as $errory) {
-					echo "<br/>";
-					echo "&bullet; $errory";
-				}
-	?>
-    </div><br>
-    <?php } 
- 
-?>
-
     <form method="POST" action="calculator.php" enctype="multipart/form-data" class="box" id="calc-form">
 
         <?php
   if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   ?>
+        <?php 
+      if (isset($error) && sizeof($error) > 0) { 
+  ?>
 
-        <input type="text" name="result" value="<?php echo $output; ?>" class="success" id="result" readonly>
+        <div class="error"><b>Syntax Error Reporting:</b>
+            <?php
+				foreach ($error as $errory) {
+					echo "<br/>";
+					echo "&bullet; $errory";
+				}
+	?>
+        </div><br>
+        <?php } else {
+ 
+?>
+
+        <input type="text" name="result" value="<?php if(is_infinite($output)){
+    print "UNDEFINED"; } else{ print $output; } ?>" class="success" id="result" readonly>
 
         <?php
-}
+            }
+    }
 ?>
         <div class="num">
             <input type="text" name="int1" value="<?php print $int1; ?>" placeholder="First Number" id="break-it">
@@ -420,6 +442,7 @@ if(empty($operator)){
 
 
         <div class="btn">
+
 
             <input type="radio" value="x^y" name="op" id="x^y"><label for="x^y">x<sup class="small">y</sup></label>
 
@@ -477,12 +500,14 @@ if(empty($operator)){
 
             <input type="submit" value="=" class="basic">
         </div>
+
     </form>
 
     <div class="notice">
-        NOTE: If you select an operator that does not require adding second input (i.e., x^2, sin, x!), please only input
+        NOTE: If you use an operator that does not require adding second input (i.e., x^2, sin, x!), please only input
         number in the left hand text box and the operator. For instance, I type 5 in left text box, select x<sup
-            class="small">2</sup>, and then select equal.
+            class="small">2</sup>, and then select equal (or press Enter key!). That will be 25.
+        This application is still working in progress.
     </div>
  
   
