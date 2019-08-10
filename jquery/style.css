@@ -1,0 +1,107 @@
+ html {
+      box-sizing: border-box;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: inherit;
+    }
+
+    body{
+      background: #8e9eab;  /* fallback for old browsers */
+      background: -webkit-linear-gradient(to top, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to top, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      background-size: cover;
+      -ms-background-size: cover; 
+      -o-background-size: cover;
+      -moz-background-size: cover; 
+      -webkit-background-size: cover;
+      background-repeat: no-repeat;
+      background-position: top;
+      height: 100vh;
+      overflow-y: hidden;
+      font-family: 'Anton', sans-serif;
+    }
+    .notice{
+      text-align: center;
+      width: 100%;
+      top: 0;
+      left: 0;
+      position: fixed;
+      background-color: rgba(255, 255, 0, 0.8);
+      color: white;
+      padding: 10px;
+      z-index: 999;
+    }
+
+    div.calc-table {
+      width: 20em;
+      background: #2c3e50;  /* fallback for old browsers */
+      background: -webkit-linear-gradient(to bottom, #3498db, #2c3e50);  /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to bottom, #3498db, #2c3e50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      margin: 0 auto;
+      position: relative;
+      margin: 4em auto;
+      display: block;
+      
+    }
+
+    .calc-total {
+      display: inline-block;
+      padding-bottom: 5px !important;
+      color: white !important;
+      border-radius: 6px;
+      padding: 5px 5px 5px 5px;
+      width: 100%;
+      text-align: right;
+      font-size: 20px;
+      font-weight: bolder;
+      font-size: 3em;
+      min-height: 1.2em;
+    }
+
+    #total {
+      margin-right: 20px;
+    }
+
+
+    .calc-row {
+      background-color: transparent;
+      color: white;
+      text-align: center;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin: 0 auto;
+      
+    }
+
+    .first{
+      border-top: 1.2px solid rgba(255, 255, 255, 0.2);;
+    }
+    .last{
+      border-bottom: none;
+    }
+    .op  {
+      border-right-style: hidden !important;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: black;
+    
+    }
+
+    .btn {
+      display: none;
+    }
+
+    label {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+      background-color: transparent;
+      color: white;
+      font-size: 2em;
+      display: inline-block;
+      padding: 15px;
+    }
