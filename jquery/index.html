@@ -2,198 +2,227 @@
 <html lang="en">
 
 <head>
-<title>Basic jQuery Calculator</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link href="https://fonts.googleapis.com/css?family=Patua+One&display=swap" rel="stylesheet">
-<style>
+  <title>Basic jQuery Calculator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Patua+One&display=swap" rel="stylesheet">
+  <style>
+    html {
+      box-sizing: border-box;
+    }
 
-.calc-table{
-    width: 35%;
-    background-color: #141e2e;
-    border-radius: 2.5em;
-}
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: inherit;
+    }
 
-.calc-total{
-    display: inline-block;
-    background-color: #949396;
-    color: black !important;
-    border-radius: 6px;
-    padding: 5px 5px 5px 5px;
-    font-size: 20px;
-    font-weight: bolder;
-}
+    div.calc-table {
+      width: 20em;
+      background-color: #141e2e;
+      margin: 0 auto;
+      position: relative;
+      margin: 1em auto;
+      display: block;
+    }
 
-.calc-row {
-    background-color: #141e2e;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    margin: 7px 5px;
-    border-radius: 15px;
-    width: 5em;
-    display: inline-block;
-}
+    .calc-total {
+      display: inline-block;
+      padding-bottom: 5px !important;
+      color: white !important;
+      border-radius: 6px;
+      padding: 5px 5px 5px 5px;
+      width: 100%;
+      text-align: right;
+      font-size: 20px;
+      font-weight: bolder;
+      font-size: 2em;
+      min-height: 1.2em;
+    }
 
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    #total {
+      margin-right: 20px;
+    }
+
+    .calc-row {
+      background-color: #141e2e;
+      color: white;
+      text-align: center;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-radius: 15px;
+      margin: 0 auto;
+    }
+
+    .btn {
+      display: none;
+    }
+
+    label {
+      border: 1px solid #141e2e;
+      background-color: #1a283d;
+      color: #acaeb0;
+      font-size: 20px;
+      display: inline-block;
+      padding: 15px;
+    }
+
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <script>
-// Add jQuery functions here
+  // Add jQuery functions here
+  // https://code.tutsplus.com/tutorials/creating-an-incredible-jquery-calculator--pre-8813
+  $(document).ready(function () {
+    var input1 = '0';
+    var input2 = 0;
+    var operator = '';
+    var total = 0;
 
-$(document).ready(function () {
-var input1 = 0;
-var input2 = 0;
-var operator = '';
-var total = 0;
-calculateNow(total);
+    calculateMe(total);
 
-$(".btn").on('click', function(evt){
-    var clicked = $(this).html();
-    console.log(clicked);
+    $("label").on('click', function (evt) {
+      var clicked = $(this).html();
+      console.log(clicked);
 
-//Add values to the total box for each button pressed
+      //Add values to the total box for each button pressed
 
-    switch(clicked){
+      if (clicked === "AC") {
+        total = 0;
+        input1 = '0';
+      } else if (clicked === "+/-") {
+        input1 *= -1;
+      } else if (clicked === '.') {
+        input1 += '.';
+      } else if (clickNum(clicked)) {
+        if (input1 === '0')
+          input1 = clicked;
 
-        //Clearing the memory
-        case 'C':
-        total =0;
-        input1 =0;
-        break;
+        else input1 = input1 + clicked;
 
-        case '+':
-        return '+';
-        break;
-
-        case '-':
-        return '-';
-        break;
-
-        case '*':
-        return '*';
-        break;
-
-        case '/':
-        return '/';
-        break; 
-
-        case '%':
-        return input1 / 100; 
-        break;
-
-        case '.':
-        return input1 += '.'; 
-        break;
-        
-        case '=':
-        input1 = calculateNow(input1, input2, operator);
+      } else if (clickOperator(clicked)) {
+        input2 = parseFloat(input1);
+        operator = clicked;
+        input1 = '';
+      } else if (clicked === '%') {
+        input1 = input1 / 100;
+      } else if (clicked === '=') {
+        input1 = calculateNow(input2, input1, operator);
         operator = null;
+      }
 
-        default:
-        return clicked;
-    }
 
-    if(clicked.isNumeric() = true){
-        if(input1 == '0'){
-            input1 = clicked;
-        } else{
-            input1 = input1 + clicked;
-        } 
 
-    }elseif(clickOperator(clicked))
-            //Once the operator is clicked, move input1 value to input2 and replace input1 value as an empty string
-            input2 = input1;
-            operator = clicked;
-            input1 = '';
-        
+      calculateMe(input1);
+    });
 
-        calculateMe(total);
-});
+  });
 
-});
-
-calculateMe = function(data){
+  calculateMe = function (data) {
     var data = data.toString();
-    $('input#total').html(data.substring(0,10)).val(data);
-};
+    $('#total').html(data.substring(0, 10)).val(data);
+  };
 
-calculateNow = function (a, b, operator) {
+  clickNum = function (num) {
+    return !isNaN(num);
+  }
 
-console.log(a, b, operator);
-    //Process the operation based on what operator(s) are used.
-    switch(operator) {
-        case '+':
-        return a + b;
+  clickOperator = function (op) {
+    return op === '/' || op === '*' || op === '+' || op === '-';
+  };
+
+
+
+  calculateNow = function (firstNum, secNum, operator) {
+
+    //Process the operator based on what operator(s) are used.
+
+    firstNum = parseFloat(firstNum);
+    secNum = parseFloat(secNum);
+    console.log(firstNum, secNum, operator);
+    switch (operator) {
+      case '+':
+        return firstNum + secNum;
         break;
 
-        case '-':
-        return a - b;
+      case '-':
+        return firstNum - secNum;
         break;
 
-        case '*':
-        return a * b;
+      case '*':
+        return firstNum * secNum;
         break;
 
-        case '/':
-        return a / b;
-        break; 
+      case '/':
+        return firstNum / secNum;
+        break;
 
-        default:
+      default:
 
     }
-}
+
+  }
+
+
+//Work on adding Keyboard input later
+
 </script>
 
 <body>
-<p>jQuery Calculator App is currently under maintenance!</p>
+  <p>jQuery Calculator App is currently under maintenance!</p>
 
-<div class="calc-table">
+  <div class="calc-table">
 
-<div class="calc-total">
-<input type="text" id="total"/>
-</div>
+    <div class="calc-total">
+      <div id="total">
 
-<div class="calc-row">
-<input type="button" class="btn" value="AC">
-<input type="button" class="btn" value="+/-">
-<input type="button" class="btn" value="%">
-<input type="button" class="btn" value="&divide;">
-</div>
+      </div>
 
-<div class="calc-row">
-<input type="button" class="btn" value="7">
-<input type="button" class="btn" value="8">
-<input type="button" class="btn" value="9">
-<input type="button" class="btn" value="x">
-</div>
+    </div>
 
-<div class="calc-row">
-<input type="button" class="btn" value="4">
-<input type="button" class="btn" value="5">
-<input type="button" class="btn" value="6">
-<input type="button" class="btn" value="-">
-</div>
+    <div class="calc-row">
+      <input type="button" class="btn" value="AC" id="AC"><label for="AC">AC</label>
+      <input type="button" class="btn" value="+/-" id="+/-"><label for="+/-">+/-</label>
+      <input type="button" class="btn" value="%"><label for="%">%</label>
+      <input type="button" class="btn" value="&divide;" id="/"><label for="/">/</label>
+    </div>
 
-<div class="calc-row">
-<input type="button" class="btn" value="1">
-<input type="button" class="btn" value="2">
-<input type="button" class="btn" value="3">
-<input type="button" class="btn" value="+">
-</div>
+    <div class="calc-row">
+      <input type="button" class="btn" value="7" id="7"><label for="7">7</label>
+      <input type="button" class="btn" value="8" id="8"><label for="8">8</label>
+      <input type="button" class="btn" value="9" id="9"><label for="9">9</label>
+      <input type="button" class="btn" value="x" id="x"><label for="x">x</label>
+    </div>
 
-<div class="calc-row">
-<input type="button" class="btn" value="0">
-<input type="button" class="btn" value=".">
-<input type="button" class="btn" value="=">
-</div>
+    <div class="calc-row">
+      <input type="button" class="btn" value="4" id="4"><label for="4">4</label>
+      <input type="button" class="btn" value="5" id="5"><label for="5">5</label>
+      <input type="button" class="btn" value="6" id="6"><label for="6">6</label>
+      <input type="button" class="btn" value="-" id="-"><label for="-">-</label>
+    </div>
 
-</div>
+    <div class="calc-row">
+      <input type="button" class="btn" value="1" id="1"><label for="1">1</label>
+      <input type="button" class="btn" value="2" id="2"><label for="2">2</label>
+      <input type="button" class="btn" value="3" id="3"><label for="3">3</label>
+      <input type="button" class="btn" value="+" id="+"><label for="+">+</label>
+    </div>
 
-<!-- Maybe considering adding scientific features? -->
+    <div class="calc-row">
+      <input type="button" class="btn" value="0"><label for="0">0</label>
+      <input type="button" class="btn" value="."><label for=".">.</label>
+      <input type="button" class="btn" value="Del"><label for="Del">Del</label>
+      <input type="button" class="btn" value="="><label for="=">=</label>
+    </div>
 
-</div>
+  </div>
+
+  <!-- Maybe considering adding scientific features? -->
+
+  </div>
 </body>
 </html>
